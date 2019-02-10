@@ -20,11 +20,18 @@ public class TestSearchService {
         Class expectedJsonType = Json.createObjectBuilder().build().getClass();
         Class expectedJsonArrayType = Json.createArrayBuilder().build().getClass();
         JsonObject searcResult = searchService.search();
+
         assertThat(searcResult, instanceOf(expectedJsonType));
+
         assertThat(searcResult.getValue("/results").getValueType(), is(ValueType.ARRAY));
+        assertThat(searcResult.getValue("/results/0").getValueType(), is(ValueType.OBJECT));
+        assertThat(searcResult.getValue("/results/0/title").getValueType(), is(ValueType.STRING));
+        assertThat(searcResult.getValue("/results/0/kcal_per_100g").getValueType(), is(ValueType.STRING));
+        assertThat(searcResult.getValue("/results/0/description").getValueType(), is(ValueType.STRING));
+
         assertThat(searcResult.getValue("/total").getValueType(), is(ValueType.OBJECT));
-        assertThat(searcResult.getValue("/total/gross").getValueType(),is(ValueType.STRING));
-        assertThat(searcResult.getValue("/total/vat").getValueType(),is(ValueType.STRING));
+        assertThat(searcResult.getValue("/total/gross").getValueType(),is(ValueType.NUMBER));
+        assertThat(searcResult.getValue("/total/vat").getValueType(),is(ValueType.NUMBER));
     }
 
 }
