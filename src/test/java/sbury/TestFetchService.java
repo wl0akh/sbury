@@ -47,10 +47,14 @@ public class TestFetchService {
         assertTrue(jsonTreeObject.get("results").isJsonArray());
 
         JsonArray results = jsonTreeObject.get("results").getAsJsonArray();
+        assertTrue(results.get(0).getAsJsonObject().get("title").getAsString().contains("Strawberries 400g"));
+        assertTrue(results.get(0).getAsJsonObject().get("kcal_per_100g").getAsString().contains("33"));
+        assertTrue(results.get(0).getAsJsonObject().get("description").getAsString().contains("strawberries"));
 
         JsonElement total = jsonTreeObject.get("total");
         JsonElement gross = total.getAsJsonObject().get("gross");
         JsonElement vat = total.getAsJsonObject().get("vat");
+        assertEquals((0.2 * (gross.getAsDouble())), vat.getAsDouble(), 0.001);
 
         Double expectedGross = 0.0;
         for (JsonElement element : results) {
