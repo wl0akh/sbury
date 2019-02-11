@@ -55,7 +55,8 @@ it will show the outcomes of the test as shown below.
 ## Design Details
 
 As shown below the illustration the Desigh of Softwear Architecture
-![digram](https://user-images.githubusercontent.com/13693247/52544242-7491a080-2da7-11e9-8bc5-a6a61c80ffb8.PNG)
+
+![design](https://user-images.githubusercontent.com/13693247/52594238-e8cd5200-2e42-11e9-80a8-93f1a9a974b9.PNG)
 
 
 ## Authors
