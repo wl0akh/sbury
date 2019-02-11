@@ -1,4 +1,4 @@
-package subry;
+package sbury;
 
 public class FetchService {
     private ViewProcessor viewProcessor;

@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import subry.Filter;
-import subry.HtmlDataSource;
-import subry.JsonViewProcessor;
-import subry.FetchService;
+import sbury.Filter;
+import sbury.HtmlDataSource;
+import sbury.JsonViewProcessor;
+import sbury.FetchService;
 
 import com.google.gson.JsonParser;
 import com.google.gson.JsonArray;
@@ -26,11 +26,13 @@ public class TestFetchService {
     private HtmlDataSource htmlDataSource;
     private JsonViewProcessor jsonViewProcessor;
     private FetchService fetchService;
+    private Map<String, Entity> entityHash;
 
     @Before
     public void initiliseDataSourceVariables() {
         String url = "https://jsainsburyplc.github.io/serverside-test/site/www.sainsburys.co.uk/shop/gb/groceries/fruit-veg/berries-cherries-currants.html";
-        htmlDataSource = new HtmlDataSource(url);
+        entityHash = EntityConfiguration.getEntityHash();
+        htmlDataSource = new HtmlDataSource(url, entityHash);
         allowAll = (e) -> (true);
         jsonViewProcessor = new JsonViewProcessor(htmlDataSource, allowAll);
         fetchService = new FetchService(jsonViewProcessor);

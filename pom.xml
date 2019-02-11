@@ -36,7 +36,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>subry.Console</mainClass>
+                            <mainClass>sbury.Console</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -46,7 +46,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>subry.Console</mainClass>
+                            <mainClass>sbury.Console</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

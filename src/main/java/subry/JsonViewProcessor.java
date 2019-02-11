@@ -1,4 +1,4 @@
-package subry;
+package sbury;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -20,6 +20,11 @@ public class JsonViewProcessor implements ViewProcessor {
     public String process() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         List<Map<String, String>> records = dataSource.getRecords();
+        if(records.get(0).containsKey("ERROR")){
+          Map<String, String> error = new HashMap<String, String>();
+          error.put("ERROR", records.get(0).get("ERROR").toString());
+          return gson.toJson(error);
+        }
         List<Map<String, Object>> formatedRecords = getFormatedRecords(records);
         Double gross = formatedRecords.stream().mapToDouble(map -> ((Double) map.get("unit_price"))).sum();
         return gson.toJson(getJsonHash(formatedRecords, gross));
@@ -59,10 +64,11 @@ public class JsonViewProcessor implements ViewProcessor {
         List<Map<String, Object>> formatedRecords = new ArrayList<Map<String, Object>>();
         for (Map<String, String> record : records) {
             Map<String, Object> hash = new HashMap<String, Object>();
-            hash.put("title", record.get("title").toString().replaceAll("[-+.^:,']", ""));
-            hash.put("description", record.get("description").toString());
+            record.forEach((key, value) -> {
+                hash.put(key, value);
+            });
             hash.put("kcal_per_100g", stringToNumber(record.get("kcal_per_100g")));
-            hash.put("unit_price", stringToNumber(record.get("unit_price")));
+            hash.put("unit_price", roundItToTwoDecimals(stringToNumber(record.get("unit_price"))));
             formatedRecords.add(hash);
         }
         return formatedRecords;
