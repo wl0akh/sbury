@@ -1,5 +1,6 @@
 package subry;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,13 +11,18 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class HtmlDataSource implements DataSource {
-    public ArrayList<Map<String, String>> getRecords(String url, Filter filter) {
-        ArrayList<Map<String, String>> records = new ArrayList<Map<String, String>>();
-        ArrayList<String> urls = geUrls(url);
+    private String url;
+
+    public HtmlDataSource(String url) {
+        this.url = url;
+    }
+
+    public List<Map<String, String>> getRecords() {
+        List<Map<String, String>> records = new ArrayList<Map<String, String>>();
+        List<String> urls = geUrls(url);
         for (String detailPageUrl : urls) {
-            HashMap<String, String> productInfo = getProductInfoFromDocument(getDocument(detailPageUrl));
-            if (filter.validate(productInfo))
-                records.add(productInfo);
+            Map<String, String> productInfo = getProductInfoFromDocument(getDocument(detailPageUrl));
+            records.add(productInfo);
         }
 
         return records;
@@ -42,8 +48,8 @@ public class HtmlDataSource implements DataSource {
         return doc;
     }
 
-    private ArrayList<String> geUrls(String url) {
-        ArrayList<String> urlArray = new ArrayList<String>();
+    private List<String> geUrls(String url) {
+        List<String> urlArray = new ArrayList<String>();
         Document doc = getDocument(url);
         Elements elements = getChileElements((Element) doc, ".gridView .gridItem h3 a");
         for (Element element : elements) {
@@ -52,8 +58,8 @@ public class HtmlDataSource implements DataSource {
         return urlArray;
     }
 
-    private HashMap<String, String> getProductInfoFromDocument(Document doc) {
-        HashMap<String, String> productInfo = new HashMap<String, String>();
+    private Map<String, String> getProductInfoFromDocument(Document doc) {
+        Map<String, String> productInfo = new HashMap<String, String>();
 
         productInfo.put("title", doc.title());
 
@@ -64,12 +70,25 @@ public class HtmlDataSource implements DataSource {
             Element trFirstTD = getChileElements(tbodySecondTr, "td").get(0);
             productInfo.put("kcal_per_100g", trFirstTD.ownText());
         }
+        if (getChileElements(doc, "htmlcontent").size() > 0) {
+            Element htmlcontent = getChileElements(doc, "htmlcontent").get(0);
+            Element descriptionDiv = getChileElements(htmlcontent, "div.productText").get(0);
+            productInfo.put("description", descriptionDiv.text());
+        } else {
+            Element informationDiv = getChileElements(doc, "div#information").get(0);
+            Element itemTypeGroupContainerDiv = getChileElements(doc, "div.itemTypeGroupContainer").get(0);
+            if (getChileElements(itemTypeGroupContainerDiv, "div.memo").size() > 0) {
+                Element descriptionDiv = getChileElements(informationDiv, "div.memo").get(0);
+                productInfo.put("description", descriptionDiv.text());
+            } else {
+                Element descriptionDiv = getChileElements(informationDiv, "div.itemTypeGroup").get(0);
+                productInfo.put("description", descriptionDiv.text());
+            }
+
+        }
 
         Element pricePerUnitP = getChileElements(doc, ".pricePerUnit").get(0);
         productInfo.put("unit_price", pricePerUnitP.ownText());
-
-        String descriptionMeta = getChileElements(doc, "meta[name=description]").get(0).attr("content");
-        productInfo.put("description", descriptionMeta);
 
         return productInfo;
     }
