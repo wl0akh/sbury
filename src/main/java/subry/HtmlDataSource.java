@@ -31,7 +31,7 @@ public class HtmlDataSource implements DataSource {
             records.add(error);
         }
         for (String detailPageUrl : urls) {
-            Map<String, String> productInfo = getProcessedEntities(JsoupHelper.getDocument(detailPageUrl), entityHash);// getProductInfoFromDocument(JsoupHelper.getDocument(detailPageUrl));
+            Map<String, String> productInfo = getProcessedEntities(JsoupHelper.getDocument(detailPageUrl), entityHash);
             records.add(productInfo);
         }
 
