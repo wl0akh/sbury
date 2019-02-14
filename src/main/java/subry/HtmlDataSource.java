@@ -14,28 +14,24 @@ import org.jsoup.select.Elements;
 
 public class HtmlDataSource implements DataSource {
     private String url;
-    private Map<String, Entity> entityHash;
+    // private Map<String, Product> entityHash;
+    private Products products;
 
-    public HtmlDataSource(String url, Map<String, Entity> entityHash) {
+
+
+    public HtmlDataSource(String url, Products products) {
         this.url = url;
-        this.entityHash = entityHash;
+        this.products = products;
     }
 
-    public List<Map<String, String>> getRecords() {
-        List<Map<String, String>> records = new ArrayList<Map<String, String>>();
-        List<String> urls = geUrls(url);
-        if(urls.size() == 0){
-            String errorText = "Unable to Fetch Data From "+url;
-            Map<String, String> error = new HashMap<String, String>();
-            error.put("ERROR", errorText);
-            records.add(error);
-        }
-        for (String detailPageUrl : urls) {
-            Map<String, String> productInfo = getProcessedEntities(JsoupHelper.getDocument(detailPageUrl), entityHash);// getProductInfoFromDocument(JsoupHelper.getDocument(detailPageUrl));
-            records.add(productInfo);
-        }
+    public Products getProducts() {
+        // List<String> urls = geUrls(url);
+        // for (String detailPageUrl : urls) {
+        //     // Product product = new Product(JsoupHelper.getDocument(detailPageUrl), entityHash);// getProductInfoFromDocument(JsoupHelper.getDocument(detailPageUrl));
+        //     products.add(product);
+        // }
 
-        return records;
+        return products;
     }
 
     private List<String> geUrls(String url) {
@@ -48,11 +44,11 @@ public class HtmlDataSource implements DataSource {
         return urlArray;
     }
 
-    private Map<String, String> getProcessedEntities(Document doc, Map<String, Entity> entityHash) {
-        Map<String, String> processedEntityHash = new HashMap<String, String>();
-        entityHash.forEach((key, entity) -> {
-            processedEntityHash.put(key, entity.getData(doc));
-        });
-        return processedEntityHash;
-    }
+    // private Product getProcessedEntities(Document doc, Product entityHash) {
+    //     Product processedEntityHash ;
+    //     entityHash.forEach((key, entity) -> {
+    //         // processedEntityHash.put(key, entity.getEntity(doc));
+    //     });
+    //     return processedEntityHash;
+    // }
 }

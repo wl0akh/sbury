@@ -1,0 +1,12 @@
+sbury\HtmlDataSource.class
+sbury\JsoupHelper.class
+sbury\ViewProcessor.class
+sbury\Products.class
+sbury\Entity.class
+sbury\DataSource.class
+sbury\Product.class
+sbury\FetchService.class
+sbury\Filter.class
+sbury\SburyProducts.class
+sbury\SburyProduct.class
+sbury\EntityConfiguration.class
