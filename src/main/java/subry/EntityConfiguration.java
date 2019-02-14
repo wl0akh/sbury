@@ -5,15 +5,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class EntityConfiguration {
+    public static String url = "https://jsainsburyplc.github.io/serverside-test/site/www.sainsburys.co.uk/shop/gb/groceries/fruit-veg/berries-cherries-currants.html";
+
     public static List<String> getUrls() {
-        String url = "https://jsainsburyplc.github.io/serverside-test/site/www.sainsburys.co.uk/shop/gb/groceries/fruit-veg/berries-cherries-currants.html";
         List<String> urlArray = new ArrayList<String>();
         Document doc = JsoupHelper.getDocument(url);
         Elements elements = JsoupHelper.getChileElements((Element) doc, ".gridView .gridItem h3 a");
@@ -29,8 +29,9 @@ public class EntityConfiguration {
             productHash.put(key, (Object) doc.title());
         };
         Entity pricePerUnit = (String key, Document doc, Map<String, Object> productHash) -> {
-            productHash.put(key, (Object) JsoupHelper.getChileElements(doc, ".pricePerUnit")
-            .get(0).ownText());
+            Object pricePerUnitData = JsoupHelper.getChileElements(doc, ".pricePerUnit")
+            .get(0).ownText();
+            productHash.put(key, (Object) JsoupHelper.roundItToTwoDecimals(pricePerUnitData));
         };
         entityHash.put("title", titleEntity);
         entityHash.put("kcal_per_100g", getKCalPerHundredGram());
@@ -48,7 +49,7 @@ public class EntityConfiguration {
                 Element tbodySecondTr = JsoupHelper.getChileElements(nutritionTableTbody, "tr").get(1);
                 Element trFirstTD = JsoupHelper.getChileElements(tbodySecondTr, "td").get(0);
                 kCalPerHundredGram = trFirstTD.ownText();
-                productHash.put(key, (Object) kCalPerHundredGram);
+                productHash.put(key, (Object) JsoupHelper.stringToNumber(kCalPerHundredGram));
             }
         };
         return entity;

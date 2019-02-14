@@ -29,24 +29,29 @@ import com.google.gson.JsonObject;
 
 public class TestSburyProduct {
     private Product product;
-    private String expectedTitle;
-    private String expectedPricePerUnit;
+    private Object expectedTitle;
+    private Object expectedPricePerUnit;
 
     @Before
     public void initiliseInputVariables() {
+        EntityConfiguration.url = "https://jsainsburyplc.github.io/serverside-test/site/www.sainsburys.co.uk/shop/gb/groceries/fruit-veg/berries-cherries-currants.html";
+   
         String firstRecordUrl ="https://jsainsburyplc.github.io/serverside-test/site/www.sainsburys.co.uk/shop/gb/groceries/berries-cherries-currants/sainsburys-british-strawberries-400g.html";
         Document doc = JsoupHelper.getDocument(firstRecordUrl);
         expectedTitle = doc.title();
-        expectedPricePerUnit = JsoupHelper.getChileElements(doc, ".pricePerUnit")
-        .get(0).ownText();
+        expectedPricePerUnit = JsoupHelper.roundItToTwoDecimals(
+            JsoupHelper.getChileElements(doc, ".pricePerUnit")
+            .get(0).ownText()
+        );
+        
         product = new SburyProduct(doc);
         product.setEntities();
     }
 
     @Test
     public void testGet() {
-        assertEquals(product.getEntity("title"), expectedTitle);
-        assertEquals(product.getEntity("unit_price"), expectedPricePerUnit);
+        assertEquals(product.getProduct().get("title"), expectedTitle);
+        assertEquals(product.getProduct().get("unit_price"), expectedPricePerUnit);
     }
 
 }
