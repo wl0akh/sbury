@@ -53,7 +53,7 @@ public class TestJsonViewProcessor {
         JsonObject jsonTreeObject = jsonTree.getAsJsonObject();
 
         assertTrue(jsonTree.isJsonObject());
-        // assertEquals(jsonTreeObject.get("ERROR").getAsString(), "Unable to Fetch Data From "+url);
+        assertEquals(jsonTreeObject.get("results").getAsJsonArray().size(), 0);
     }
 
 }
