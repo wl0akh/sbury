@@ -2,19 +2,20 @@ package sbury;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.jsoup.nodes.Document;
 
 public class SburyProducts implements Products {
     private List<String> urls;
-    private List<Product> products;
+    private List<Map> products;
 
     public SburyProducts() {
-        this.products = new ArrayList<Product>();
+        this.products = new ArrayList<Map>();
         this.urls = EntityConfiguration.getUrls();
         urls.forEach(url -> addProductFromUrl(url));
     }
 
-    public List<Product> getProducts() {
+    public List<Map> getProducts() {
         return products;
     }
 
@@ -22,7 +23,7 @@ public class SburyProducts implements Products {
         Document doc = JsoupHelper.getDocument(url);
         Product product = new SburyProduct(doc);
         product.setEntities();
-        products.add(product);
+        products.add(product.getProduct());
     }
 
 }

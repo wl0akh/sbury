@@ -42,13 +42,13 @@ public class TestSburyProducts {
 
     @Test
     public void testGet() {
-      assertEquals(products.getProducts().get(0).getProduct().get("title")
+      assertEquals(products.getProducts().get(0).get("title")
       , expectedProduct.getProduct().get("title"));
-      assertEquals(products.getProducts().get(0).getProduct().get("kcal_per_100g").toString()
+      assertEquals(products.getProducts().get(0).get("kcal_per_100g").toString()
       , expectedProduct.getProduct().get("kcal_per_100g").toString());
-      assertEquals(products.getProducts().get(0).getProduct().get("description").toString()
+      assertEquals(products.getProducts().get(0).get("description").toString()
       , expectedProduct.getProduct().get("description").toString());
-      assertEquals(products.getProducts().get(0).getProduct().get("unit_price").toString()
+      assertEquals(products.getProducts().get(0).get("unit_price").toString()
       , expectedProduct.getProduct().get("unit_price").toString());
     }
 
