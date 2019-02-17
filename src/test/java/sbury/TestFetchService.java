@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import sbury.Filter;
-import sbury.HtmlDataSource;
+import sbury.Sort;
 import sbury.JsonViewProcessor;
 import sbury.FetchService;
 
@@ -23,18 +23,20 @@ import com.google.gson.JsonObject;
 
 public class TestFetchService {
     private Filter allowAll;
-    private HtmlDataSource htmlDataSource;
+    private Sort sortBy;
+    private DataSource htmlDataSource;
     private JsonViewProcessor jsonViewProcessor;
     private FetchService fetchService;
-    private Map<String, Entity> entityHash;
 
     @Before
     public void initiliseDataSourceVariables() {
         String url = "https://jsainsburyplc.github.io/serverside-test/site/www.sainsburys.co.uk/shop/gb/groceries/fruit-veg/berries-cherries-currants.html";
-        entityHash = EntityConfiguration.getEntityHash();
-        htmlDataSource = new HtmlDataSource(url, entityHash);
+   
         allowAll = (e) -> (true);
-        jsonViewProcessor = new JsonViewProcessor(htmlDataSource, allowAll);
+        
+        sortBy = (p1,p2)->(1);
+        DataSource htmlDataSource = new HtmlDataSource(url, EntityConfig.getEntities());
+        jsonViewProcessor = new JsonViewProcessor(htmlDataSource, allowAll, sortBy);
         fetchService = new FetchService(jsonViewProcessor);
     }
 
