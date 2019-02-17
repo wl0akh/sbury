@@ -12,12 +12,13 @@ import org.jsoup.select.Elements;
 
 import java.util.logging.Logger;
 
-public class Entities implements Entity<Document,List> {
+public class Entities implements Entity<String,List> {
     
     private final static Logger LOGGER = Logger.getLogger(Entities.class.getName());
 
-    public void setData(Document doc, List records){
+    public void setData(String mainPageUrl, List records){
         try{
+            Document doc = JsoupHelper.getDocument(mainPageUrl);
             List<String> urls = getUrls(doc);
             urls.forEach(url -> {
                 Document detailPageDoc = JsoupHelper.getDocument(url);

@@ -27,8 +27,7 @@ public class HtmlDataSource implements DataSource {
     public List<Map> getRecords() {
       List<Map> records = new ArrayList<Map>();
       try{
-        Document doc = JsoupHelper.getDocument(url);
-        entitys.setData(doc, records);
+        entitys.setData(url, records);
       }catch(Exception e){
           LOGGER.warning("ERROR: " + e.getMessage());
       }

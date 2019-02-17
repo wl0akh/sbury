@@ -24,7 +24,7 @@ public class TestEntities {
     public void testSetDataValidUrl() {
         String url = "https://jsainsburyplc.github.io/serverside-test/site/www.sainsburys.co.uk/shop/gb/groceries/fruit-veg/berries-cherries-currants.html";
         ArrayList<Map> records = new ArrayList<Map>();
-        new Entities().setData(JsoupHelper.getDocument(url), records);
+        new Entities().setData(url, records);
 
         String firstRecordUrl ="https://jsainsburyplc.github.io/serverside-test/site/www.sainsburys.co.uk/shop/gb/groceries/berries-cherries-currants/sainsburys-british-strawberries-400g.html";
 
@@ -38,7 +38,7 @@ public class TestEntities {
     public void testSetDataInvalidUrl() {
         String url = "**in_valid_url**";
         ArrayList<Map> records = new ArrayList<Map>();
-        new Entities().setData(JsoupHelper.getDocument(url), records);
+        new Entities().setData(url, records);
         assertEquals(records.size(), 0);
     }
 
