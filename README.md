@@ -59,7 +59,7 @@ it will show the outcomes of the test as shown below.
 
 As shown below the illustration the Desigh of Softwear Architecture
 
-![newdigram](https://user-images.githubusercontent.com/13693247/52784614-9c099700-304d-11e9-8941-9d32d3cecd65.PNG)
+![newdigram](https://user-images.githubusercontent.com/13693247/52594238-e8cd5200-2e42-11e9-80a8-93f1a9a974b9.PNG)
 
 
 ## Authors
