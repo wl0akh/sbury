@@ -8,7 +8,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-you need to have Java Java SE 8u202 latest version of MAVEN on your mechine.
+you need to have Java Java SE 8u202 and latest version of MAVEN on your mechine.
 
 
 ### Installation Instructions
@@ -30,6 +30,9 @@ after going through above installasion instructions the Console tool should show
 #### Fetched JSON as shown below
 
 ![jsonscreetshot](https://user-images.githubusercontent.com/13693247/52543742-da7c2900-2da3-11e9-8b77-17eddbdbe483.PNG)
+
+### Fetching Invalid Url to Show Error Logging
+![errorwarning](https://user-images.githubusercontent.com/13693247/52784644-afb4fd80-304d-11e9-83f1-318c390a935e.PNG)
 
 ## Running the System tests
 
@@ -56,7 +59,7 @@ it will show the outcomes of the test as shown below.
 
 As shown below the illustration the Desigh of Softwear Architecture
 
-![design](https://user-images.githubusercontent.com/13693247/52594238-e8cd5200-2e42-11e9-80a8-93f1a9a974b9.PNG)
+![newdigram](https://user-images.githubusercontent.com/13693247/52784614-9c099700-304d-11e9-8941-9d32d3cecd65.PNG)
 
 
 ## Authors

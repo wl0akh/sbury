@@ -31,9 +31,7 @@ public class TestFetchService {
     @Before
     public void initiliseDataSourceVariables() {
         String url = "https://jsainsburyplc.github.io/serverside-test/site/www.sainsburys.co.uk/shop/gb/groceries/fruit-veg/berries-cherries-currants.html";
-   
         allowAll = (e) -> (true);
-        
         sortBy = (p1,p2)->(1);
         DataSource htmlDataSource = new HtmlDataSource(url, EntityConfig.getEntities());
         jsonViewProcessor = new JsonViewProcessor(htmlDataSource, allowAll, sortBy);

@@ -17,6 +17,7 @@ import sbury.HtmlDataSource;
 import sbury.JsonViewProcessor;
 import sbury.DataSource;
 
+
 import com.google.gson.JsonParser;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -62,6 +63,7 @@ public class TestJsonViewProcessor {
             else
                 return 0;
         };
+
         jsonViewProcessor = new JsonViewProcessor(htmlDataSource, allowAll, sortBy);
         String json = jsonViewProcessor.process();
         JsonParser jsonParser = new JsonParser();
@@ -74,6 +76,7 @@ public class TestJsonViewProcessor {
 
     @Test
     public void testProcessInvalidUrl() {
+
         String url = "***Invalid_URL**";
         DataSource htmlDataSource = new HtmlDataSource(url, EntityConfig.getEntities());
         allowAll = (e) -> (true);
