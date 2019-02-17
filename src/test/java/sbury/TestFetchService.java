@@ -24,19 +24,17 @@ import com.google.gson.JsonObject;
 public class TestFetchService {
     private Filter allowAll;
     private Sort sortBy;
-    private Products products;
+    private DataSource htmlDataSource;
     private JsonViewProcessor jsonViewProcessor;
     private FetchService fetchService;
 
     @Before
     public void initiliseDataSourceVariables() {
-        EntityConfiguration.url = "https://jsainsburyplc.github.io/serverside-test/site/www.sainsburys.co.uk/shop/gb/groceries/fruit-veg/berries-cherries-currants.html";
-   
+        String url = "https://jsainsburyplc.github.io/serverside-test/site/www.sainsburys.co.uk/shop/gb/groceries/fruit-veg/berries-cherries-currants.html";
         allowAll = (e) -> (true);
-        
         sortBy = (p1,p2)->(1);
-        products = new SburyProducts();
-        jsonViewProcessor = new JsonViewProcessor(products, allowAll, sortBy);
+        DataSource htmlDataSource = new HtmlDataSource(url, EntityConfig.getEntities());
+        jsonViewProcessor = new JsonViewProcessor(htmlDataSource, allowAll, sortBy);
         fetchService = new FetchService(jsonViewProcessor);
     }
 

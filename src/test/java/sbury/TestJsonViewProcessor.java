@@ -13,9 +13,10 @@ import java.util.Comparator;
 
 import sbury.Filter;
 import sbury.Sort;
-import sbury.Products;
+import sbury.HtmlDataSource;
 import sbury.JsonViewProcessor;
-import sbury.Product;
+import sbury.DataSource;
+
 
 import com.google.gson.JsonParser;
 import com.google.gson.JsonElement;
@@ -25,17 +26,17 @@ import com.google.gson.JsonArray;
 public class TestJsonViewProcessor {
     private Filter allowAll;
     private Sort sortBy;
-    private Products products;
-    private JsonViewProcessor jsonViewProcessor;
+    private DataSource htmlDataSource;
+    private ViewProcessor jsonViewProcessor;
 
     @Before
     public void initiliseDataSourceVariables() {
-        EntityConfiguration.url = "https://jsainsburyplc.github.io/serverside-test/site/www.sainsburys.co.uk/shop/gb/groceries/fruit-veg/berries-cherries-currants.html";
+        String url = "https://jsainsburyplc.github.io/serverside-test/site/www.sainsburys.co.uk/shop/gb/groceries/fruit-veg/berries-cherries-currants.html";
 
-        products = new SburyProducts();
+        htmlDataSource = new HtmlDataSource(url, EntityConfig.getEntities());
         allowAll = (e) -> (true);
         sortBy = (p1, p2) -> (1);
-        jsonViewProcessor = new JsonViewProcessor(products, allowAll, sortBy);
+        jsonViewProcessor = new JsonViewProcessor(htmlDataSource, allowAll, sortBy);
     }
 
     @Test
@@ -62,7 +63,8 @@ public class TestJsonViewProcessor {
             else
                 return 0;
         };
-        jsonViewProcessor = new JsonViewProcessor(products, allowAll, sortBy);
+
+        jsonViewProcessor = new JsonViewProcessor(htmlDataSource, allowAll, sortBy);
         String json = jsonViewProcessor.process();
         JsonParser jsonParser = new JsonParser();
         JsonElement jsonTree = jsonParser.parse(json);
@@ -74,11 +76,12 @@ public class TestJsonViewProcessor {
 
     @Test
     public void testProcessInvalidUrl() {
-        EntityConfiguration.url = "***Invalid_URL**";
-        products = new SburyProducts();
+
+        String url = "***Invalid_URL**";
+        DataSource htmlDataSource = new HtmlDataSource(url, EntityConfig.getEntities());
         allowAll = (e) -> (true);
         sortBy = (p1, p2) -> (1);
-        jsonViewProcessor = new JsonViewProcessor(products, allowAll, sortBy);
+        jsonViewProcessor = new JsonViewProcessor(htmlDataSource, allowAll, sortBy);
         String json = jsonViewProcessor.process();
         JsonParser jsonParser = new JsonParser();
         JsonElement jsonTree = jsonParser.parse(json);

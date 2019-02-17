@@ -6,34 +6,42 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import java.util.logging.Logger;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import sbury.Product;
 
 public class JsonViewProcessor implements ViewProcessor {
-    private Products products;
+    private DataSource htmlDataSource;
     private Filter filter;
     private Sort sortBy;
+    private final static Logger LOGGER = Logger.getLogger(JsonViewProcessor.class.getName());
 
-    public JsonViewProcessor(Products products, Filter filter, Sort sortBy) {
-        this.products = products;
+    public JsonViewProcessor(DataSource htmlDataSource, Filter filter, Sort sortBy) {
+        this.htmlDataSource = htmlDataSource;
         this.filter = filter;
         this.sortBy = sortBy;
     }
 
     public String process() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        List<Map> filteredProductsArray = products.getProducts();
+        List<Map> productsArray = new ArrayList<Map>();
+        Double gross = 0.0;
+        try{
+            productsArray = htmlDataSource.getRecords();
 
-        filteredProductsArray.stream()
-        .filter(filter)
-        .collect(Collectors.toList()); 
+            productsArray.stream()
+            .filter(filter)
+            .collect(Collectors.toList()); 
 
-        filteredProductsArray.sort(sortBy);
+            productsArray.sort(sortBy);
 
-        Double gross = filteredProductsArray.stream().mapToDouble(map -> ((Double) map.get("unit_price"))).sum();
-        return gson.toJson(getJsonHash(filteredProductsArray, gross));
+            gross = productsArray.stream().mapToDouble(map -> ((Double) map.get("unit_price"))).sum();
+        }catch(Exception e){
+            LOGGER.warning("ERROR: " + e.getMessage());
+        }
+        return gson.toJson(getJsonHash(productsArray, gross));
     }
 
     private Map<String, Object> getJsonHash(List<Map> productsArray, Double gross) {
