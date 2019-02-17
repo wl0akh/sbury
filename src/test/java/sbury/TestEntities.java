@@ -15,31 +15,30 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import sbury.HtmlDataSource;
-import sbury.Entity;
 import sbury.Entities;
+import sbury.Entity;
 import sbury.JsoupHelper;
 
-public class TestHtmlDataSource {
+public class TestEntities {
     @Test
-    public void testGetRecordsValidUrl() {
+    public void testSetDataValidUrl() {
         String url = "https://jsainsburyplc.github.io/serverside-test/site/www.sainsburys.co.uk/shop/gb/groceries/fruit-veg/berries-cherries-currants.html";
-        HtmlDataSource htmlDataSource = new HtmlDataSource(url, new Entities());
-        ArrayList records = (ArrayList) htmlDataSource.getRecords();
+        ArrayList<Map> records = new ArrayList<Map>();
+        new Entities().setData(JsoupHelper.getDocument(url), records);
 
         String firstRecordUrl ="https://jsainsburyplc.github.io/serverside-test/site/www.sainsburys.co.uk/shop/gb/groceries/berries-cherries-currants/sainsburys-british-strawberries-400g.html";
 
         String expectedTitle = JsoupHelper.getDocument(firstRecordUrl).title();
         Map hash = (Map) records.get(0);
-        String actuialTitle = hash.get("title").toString();
+        String actuialTitle = records.get(0).get("title").toString();
         assertEquals(expectedTitle, actuialTitle);
     }
 
     @Test
-    public void testGetRecordsInvalidUrl() {
+    public void testSetDataInvalidUrl() {
         String url = "**in_valid_url**";
-        HtmlDataSource htmlDataSource = new HtmlDataSource(url, new Entities());
-        ArrayList records = (ArrayList) htmlDataSource.getRecords();
+        ArrayList<Map> records = new ArrayList<Map>();
+        new Entities().setData(JsoupHelper.getDocument(url), records);
         assertEquals(records.size(), 0);
     }
 

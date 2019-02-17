@@ -12,7 +12,7 @@ public class Console {
         try {
             Filter allowAll = (e) -> (true);
             Sort sortBy = (p1,p2)->(1);
-            DataSource htmlDataSource = new HtmlDataSource(EntityConfig.url, EntityConfig.getEntities());
+            DataSource htmlDataSource = new HtmlDataSource(EntityConfig.url, new Entities());
             JsonViewProcessor jsonViewProcessor = new JsonViewProcessor(htmlDataSource, allowAll, sortBy);
             FetchService fetchService = new FetchService(jsonViewProcessor);
             System.out.println(fetchService.fetch());

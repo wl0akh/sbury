@@ -15,6 +15,7 @@ import sbury.Filter;
 import sbury.Sort;
 import sbury.JsonViewProcessor;
 import sbury.FetchService;
+import sbury.Entities;
 
 import com.google.gson.JsonParser;
 import com.google.gson.JsonArray;
@@ -33,7 +34,7 @@ public class TestFetchService {
         String url = "https://jsainsburyplc.github.io/serverside-test/site/www.sainsburys.co.uk/shop/gb/groceries/fruit-veg/berries-cherries-currants.html";
         allowAll = (e) -> (true);
         sortBy = (p1,p2)->(1);
-        DataSource htmlDataSource = new HtmlDataSource(url, EntityConfig.getEntities());
+        DataSource htmlDataSource = new HtmlDataSource(url, new Entities());
         jsonViewProcessor = new JsonViewProcessor(htmlDataSource, allowAll, sortBy);
         fetchService = new FetchService(jsonViewProcessor);
     }

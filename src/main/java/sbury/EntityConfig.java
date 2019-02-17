@@ -13,42 +13,23 @@ import org.jsoup.select.Elements;
 public class EntityConfig {
     public static String url = "https://jsainsburyplc.github.io/serverside-test/site/www.sainsburys.co.uk/shop/gb/groceries/fruit-veg/berries-cherries-currants.html";
 
-    public static List<String> getUrls() {
-        List<String> urlArray = new ArrayList<String>();
-        Document doc = JsoupHelper.getDocument(url);
-        Elements elements = JsoupHelper.getChileElements((Element) doc, ".gridView .gridItem h3 a");
-        for (Element element : elements) {
-            urlArray.add(element.attr("abs:href"));
-        }
-        return urlArray;
-    }
-
-    public static List<Entity> getEntities() {
-        List<Entity> entities = new ArrayList<Entity>();
-        entities.add(getTitleEntity());
-        entities.add(getKCalPerHundredGram());
-        entities.add(getPricePerUnit());
-        entities.add(getDescription());
-        return entities;
-    }
-
-    private static Entity getTitleEntity(){
-      Entity titleEntity = (Document doc, Map<String, Object> productHash) -> {
+    public static Entity<Document, Map> getTitleEntity(){
+      Entity<Document, Map> titleEntity = (doc, productHash) -> {
           productHash.put("title", (Object) doc.title());
       };
       return titleEntity;
     }
 
 
-    private static Entity getPricePerUnit(){
-      Entity pricePerUnit = (Document doc, Map<String, Object> productHash) -> {
+    public static Entity<Document, Map> getPricePerUnit(){
+      Entity<Document, Map> pricePerUnit = (doc, productHash) -> {
         Object pricePerUnitData = JsoupHelper.getChileElements(doc, ".pricePerUnit").get(0).ownText();
         productHash.put("unit_price", (Object) JsoupHelper.roundItToTwoDecimals(pricePerUnitData));
       };
       return pricePerUnit;
     }
-    private static Entity getKCalPerHundredGram() {
-        Entity entity = (Document doc, Map<String, Object> productHash) -> {
+    public static Entity<Document, Map> getKCalPerHundredGram() {
+        Entity<Document, Map> entity = (doc, productHash) -> {
             String kCalPerHundredGram = "";
             if (JsoupHelper.getChileElements(doc, ".nutritionTable").size() > 0) {
                 Element nutritionTable = JsoupHelper.getChileElements(doc, ".nutritionTable").get(0);
@@ -62,8 +43,8 @@ public class EntityConfig {
         return entity;
     }
 
-    private static Entity getDescription() {
-        Entity entity = (Document doc, Map<String, Object> productHash) -> {
+    public static Entity<Document, Map> getDescription() {
+        Entity<Document, Map> entity = (doc, productHash) -> {
             String description = "";
             if (JsoupHelper.getChileElements(doc, "htmlcontent").size() > 0) {
                 Element htmlcontent = JsoupHelper.getChileElements(doc, "htmlcontent").get(0);

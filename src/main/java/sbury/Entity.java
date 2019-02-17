@@ -3,8 +3,8 @@ package sbury;
 import org.jsoup.nodes.Document;
 import java.util.Map;
 
-public interface Entity {
+public interface Entity<U,T> {
 
-  abstract void setData(Document doc, Map<String, Object> productHash);
+  abstract void setData(U doc, T record);
   
 }

@@ -14,6 +14,7 @@ import java.util.Comparator;
 import sbury.Filter;
 import sbury.Sort;
 import sbury.HtmlDataSource;
+import sbury.Entities;
 import sbury.JsonViewProcessor;
 import sbury.DataSource;
 
@@ -32,8 +33,7 @@ public class TestJsonViewProcessor {
     @Before
     public void initiliseDataSourceVariables() {
         String url = "https://jsainsburyplc.github.io/serverside-test/site/www.sainsburys.co.uk/shop/gb/groceries/fruit-veg/berries-cherries-currants.html";
-
-        htmlDataSource = new HtmlDataSource(url, EntityConfig.getEntities());
+        htmlDataSource = new HtmlDataSource(url, new Entities());
         allowAll = (e) -> (true);
         sortBy = (p1, p2) -> (1);
         jsonViewProcessor = new JsonViewProcessor(htmlDataSource, allowAll, sortBy);
@@ -78,7 +78,7 @@ public class TestJsonViewProcessor {
     public void testProcessInvalidUrl() {
 
         String url = "***Invalid_URL**";
-        DataSource htmlDataSource = new HtmlDataSource(url, EntityConfig.getEntities());
+        DataSource htmlDataSource = new HtmlDataSource(url, new Entities());
         allowAll = (e) -> (true);
         sortBy = (p1, p2) -> (1);
         jsonViewProcessor = new JsonViewProcessor(htmlDataSource, allowAll, sortBy);
